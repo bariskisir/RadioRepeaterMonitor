@@ -1,0 +1,466 @@
+.part.radio-player {
+  flex: 0 0 auto;
+  width: 100%;
+  min-width: 0;
+  z-index: 10;
+}
+
+.radio-player-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  height: 72px;
+  padding: 0 18px;
+  box-sizing: border-box;
+  border-top: var(--baseapp-border-width) solid var(--baseapp-sideBar-border);
+  background: var(--baseapp-sideBar-background);
+  box-shadow: 0 -4px 16px color-mix(in srgb, var(--baseapp-widget-shadow) 45%, transparent);
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+.radio-player-bar.live {
+  border-top-color: color-mix(in srgb, var(--baseapp-successForeground) 52%, transparent);
+  background:
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--baseapp-successForeground) 11%, transparent) 0%,
+      color-mix(in srgb, var(--baseapp-successForeground) 3%, transparent) 34%,
+      transparent 60%
+    ),
+    var(--baseapp-sideBar-background);
+}
+
+.radio-player-bar[data-state='error'] {
+  border-top-color: color-mix(in srgb, var(--baseapp-errorForeground) 65%, transparent);
+}
+
+.radio-player-track {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.radio-player-artwork-wrap {
+  position: relative;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  padding: 1px;
+  background: color-mix(in srgb, var(--baseapp-border-default) 85%, transparent);
+  transition: background-color 180ms ease;
+}
+
+.radio-player-bar.live .radio-player-artwork-wrap {
+  background: color-mix(in srgb, var(--baseapp-successForeground) 70%, transparent);
+}
+
+.radio-player-artwork {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 7px;
+  object-fit: cover;
+}
+
+.radio-player-equalizer {
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  left: 4px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 2px;
+  height: 12px;
+  padding: 2px;
+  border-radius: 3px;
+  background: color-mix(in srgb, #000000 62%, transparent);
+  opacity: 0;
+  transition: opacity 160ms ease;
+}
+
+.radio-player-equalizer.active {
+  opacity: 1;
+}
+
+.radio-player-eq-bar {
+  width: 2.5px;
+  height: 3px;
+  border-radius: 1.5px;
+  background: var(--baseapp-successForeground);
+  animation: radio-eq 880ms ease-in-out infinite;
+}
+
+.radio-player-eq-2 {
+  animation-delay: 150ms;
+}
+
+.radio-player-eq-3 {
+  animation-delay: 280ms;
+}
+
+.radio-player-eq-4 {
+  animation-delay: 90ms;
+}
+
+@keyframes radio-eq {
+  0%,
+  100% {
+    height: 2px;
+  }
+  50% {
+    height: 8px;
+  }
+}
+
+.radio-player-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.radio-player-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.radio-player-dot {
+  flex-shrink: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--baseapp-descriptionForeground) 65%, transparent);
+}
+
+.radio-player-bar[data-state='connected'] .radio-player-dot {
+  background: var(--baseapp-successForeground);
+}
+
+.radio-player-bar[data-state='connecting'] .radio-player-dot,
+.radio-player-bar[data-state='reconnecting'] .radio-player-dot {
+  background: var(--baseapp-warningForeground);
+  animation: radio-player-pulse 1.2s ease-in-out infinite;
+}
+
+.radio-player-bar.live .radio-player-dot {
+  background: var(--baseapp-successForeground);
+  animation: radio-player-pulse 1.3s ease-in-out infinite;
+}
+
+.radio-player-bar[data-state='error'] .radio-player-dot {
+  background: var(--baseapp-errorForeground);
+}
+
+@keyframes radio-player-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.radio-player-title {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--baseapp-foreground);
+}
+
+.radio-player-extra {
+  flex-shrink: 0;
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--baseapp-badge-foreground);
+  background: var(--baseapp-badge-background);
+}
+
+.radio-player-extra:empty {
+  display: none;
+}
+
+.radio-player-state {
+  flex-shrink: 0;
+  padding: 2px 7px;
+  border-radius: 999px;
+  font-size: 9.5px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--baseapp-descriptionForeground);
+  background: color-mix(in srgb, var(--baseapp-foreground) 7%, transparent);
+}
+
+.radio-player-bar[data-state='connected'] .radio-player-state {
+  color: var(--baseapp-successForeground);
+  background: color-mix(in srgb, var(--baseapp-successForeground) 14%, transparent);
+}
+
+.radio-player-bar.live .radio-player-state {
+  color: var(--baseapp-successForeground);
+  background: color-mix(in srgb, var(--baseapp-successForeground) 18%, transparent);
+}
+
+.radio-player-bar[data-state='connecting'] .radio-player-state,
+.radio-player-bar[data-state='reconnecting'] .radio-player-state {
+  color: var(--baseapp-warningForeground);
+  background: color-mix(in srgb, var(--baseapp-warningForeground) 14%, transparent);
+}
+
+.radio-player-bar[data-state='error'] .radio-player-state {
+  color: var(--baseapp-errorForeground);
+  background: color-mix(in srgb, var(--baseapp-errorForeground) 14%, transparent);
+}
+
+.radio-player-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  font-size: 11.5px;
+  line-height: 1.35;
+  color: var(--baseapp-descriptionForeground);
+}
+
+.radio-player-subtitle {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.radio-player-bar.live .radio-player-subtitle {
+  color: color-mix(in srgb, var(--baseapp-foreground) 82%, var(--baseapp-descriptionForeground));
+}
+
+.radio-player-time {
+  flex-shrink: 0;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-family: var(--baseapp-monospace-font);
+  font-size: 11px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--baseapp-successForeground);
+  background: color-mix(in srgb, var(--baseapp-successForeground) 12%, transparent);
+}
+
+.radio-player-time:empty {
+  display: none;
+}
+
+.radio-player-controls {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding-left: 18px;
+  border-left: var(--baseapp-border-width) solid
+    color-mix(in srgb, var(--baseapp-sideBar-border) 85%, transparent);
+}
+
+.radio-player-volume {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) 36px;
+  grid-template-rows: 30px 4px;
+  align-items: center;
+  column-gap: 8px;
+  row-gap: 3px;
+  width: clamp(204px, 22vw, 260px);
+  padding-top: 3px;
+}
+
+.radio-player-volume .monaco-text-button {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: center;
+  justify-self: center;
+  flex-shrink: 0;
+  width: 30px;
+  min-width: 30px;
+  height: 30px;
+  min-height: 30px;
+  padding: 0;
+  border-radius: 50%;
+  color: var(--baseapp-descriptionForeground);
+}
+
+.radio-player-volume .monaco-text-button:hover:not(:disabled) {
+  color: var(--baseapp-foreground);
+  background: var(--baseapp-toolbar-hoverBackground);
+}
+
+.radio-player-volume .monaco-text-button[aria-pressed='true'] {
+  color: var(--baseapp-accent-primary);
+  background: color-mix(in srgb, var(--baseapp-accent-primary) 16%, transparent);
+}
+
+.radio-player-volume-slider {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  height: 30px;
+  min-width: 0;
+}
+
+.radio-player-volume-slider .monaco-slider {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  height: 20px;
+  gap: 0;
+}
+
+.radio-player-volume-slider .monaco-slider-input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+.radio-player-volume-slider .monaco-slider-input::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    var(--baseapp-accent-primary) 0%,
+    var(--baseapp-accent-primary) var(--monaco-slider-progress, 0%),
+    color-mix(in srgb, var(--baseapp-foreground) 16%, transparent) var(--monaco-slider-progress, 0%),
+    color-mix(in srgb, var(--baseapp-foreground) 16%, transparent) 100%
+  );
+}
+
+.radio-player-bar.live
+  .radio-player-volume-slider
+  .monaco-slider-input::-webkit-slider-runnable-track {
+  background: linear-gradient(
+    to right,
+    var(--baseapp-successForeground) 0%,
+    var(--baseapp-successForeground) var(--monaco-slider-progress, 0%),
+    color-mix(in srgb, var(--baseapp-foreground) 16%, transparent) var(--monaco-slider-progress, 0%),
+    color-mix(in srgb, var(--baseapp-foreground) 16%, transparent) 100%
+  );
+}
+
+.radio-player-volume-slider .monaco-slider-input::-webkit-slider-thumb {
+  width: 12px;
+  height: 12px;
+  margin-top: -4px;
+  border: none;
+  background-color: var(--baseapp-foreground);
+  box-shadow: 0 1px 4px var(--baseapp-widget-shadow);
+}
+
+.radio-player-volume-slider .monaco-slider-input:hover:not(:disabled)::-webkit-slider-thumb {
+  background-color: var(--baseapp-foreground);
+  transform: scale(1.15);
+}
+
+.radio-player-volume-slider .monaco-slider-value {
+  display: none;
+}
+
+.radio-player-volume-value {
+  grid-column: 3;
+  grid-row: 1;
+  align-self: center;
+  text-align: right;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--baseapp-descriptionForeground);
+}
+
+.radio-player-level {
+  grid-column: 2;
+  grid-row: 2;
+  height: 4px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--baseapp-foreground) 11%, transparent);
+  opacity: 0.65;
+  transition: opacity 160ms ease;
+}
+
+.radio-player-bar.audio-muted .radio-player-volume-slider,
+.radio-player-bar.audio-muted .radio-player-volume-value {
+  opacity: 0.4;
+}
+
+.radio-player-level.active {
+  opacity: 1;
+}
+
+.radio-player-level-fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    var(--baseapp-accent-primary),
+    var(--baseapp-successForeground)
+  );
+  transition: width 85ms linear;
+}
+
+.radio-player-bar.audio-muted .radio-player-level-fill {
+  background: var(--baseapp-descriptionForeground);
+}
+
+.radio-player-bar.audio-blocked .radio-player-level {
+  opacity: 0.25;
+}
+
+@media (max-width: 900px) {
+  .radio-player-volume {
+    width: 196px;
+  }
+}
+
+@media (max-width: 720px) {
+  .radio-player-state {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .radio-player-controls {
+    padding-left: 12px;
+  }
+
+  .radio-player-volume {
+    grid-template-columns: 30px minmax(0, 1fr);
+    width: 154px;
+  }
+
+  .radio-player-volume-value {
+    display: none;
+  }
+}
